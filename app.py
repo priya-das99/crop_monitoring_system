@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from flask import Flask, render_template, send_file, request, jsonify
 import os
 import json
-import joblib
+# import joblib
 import subprocess
 
 plt.switch_backend('Agg')
@@ -95,6 +95,23 @@ def predict():
     return render_template('crop_prediction.html')
 
     # return render_template('crop_prediction.html')
+
+# Load unique crop names from price_avg.csv
+crop_names = set()
+with open('price_avg.csv', 'r') as f:
+    next(f)  # Skip header
+    for line in f:
+        crop_name, _ = line.strip().split(',')
+        crop_names.add(crop_name)
+
+@app.route('/profit', methods=['GET', 'POST'])
+def profit():
+    if request.method == 'POST':
+        crop_name = request.form['crop_name']
+        # Run the C++ program with the selected crop name
+        output = subprocess.check_output(['./profit_predict', crop_name])
+        return render_template('crop_profit.html', output=output.decode('utf-8'))
+    return render_template('crop_profit.html', crop_names=crop_names)
 
 if __name__ == '__main__':
     if not os.path.exists('static'):
