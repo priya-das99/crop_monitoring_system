@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Crop Profit Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="min-h-screen bg-cover bg-center" style="background-image: url('https://media.istockphoto.com/id/975806766/photo/green-ripening-soybean-field-agricultural-landscape.webp?b=1&s=170667a&w=0&k=20&c=ZtxvP6GTQ13UZ7LXul6zPRDs6mwmaiRAjFOpaGoNTRw=');">
+        <div class="p-4">
+    <h1 class="text-lg font-semibold text-white mb-4">Crop Profit Calculator</h1>
+    <form action="/profit" method="post">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {% for crop_name in crop_names %}
+        <button class="bg-purple-300 text-zinc-800 p-4 rounded-lg shadow" type="submit" name="crop_name" value="{{ crop_name }}">{{ crop_name }}</button>
+      {% endfor %}
+    </div>
+    </form>
+    {% if output %}
+      <p> Expected profit for {{ crop_name }} {{ output }} Cr</p>
+    {% endif %}
+
+        </div>
+    </div>
+  </body>
+</html>
